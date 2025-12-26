@@ -101,7 +101,7 @@ body:
     attributes:
       label: Model used
       description: Specify the LLM model you were using when the bug occurred.
-      placeholder: "e.g., GPT-4o-mini"
+      placeholder: "e.g., gpt-5.1"
 
   - type: textarea
     id: error
