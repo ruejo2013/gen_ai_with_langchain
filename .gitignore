@@ -5,11 +5,13 @@ langflow.db
 # api keys - please see chapter 3 or README for instructions
 config.py
 
-set_agents.py
+# set_agents.py
 
 # mac
 .DS_Store
-
+*result.
+result.txt
+result.json
 # Distribution/Packaging
 .env
 .venv
