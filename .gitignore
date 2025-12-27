@@ -30,6 +30,8 @@ search_engine/faiss_index.db/
 .spyderproject
 .spyproject
 .ipynb_checkpoints
+*.mp4
+**.mp4
 
 
 # Byte-compiled / optimized / DLL files / Cache
