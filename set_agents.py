@@ -1,3 +1,4 @@
+from pyexpat import model
 from typing import Protocol
 from transformers import pipeline
 from langchain_huggingface import HuggingFacePipeline, ChatHuggingFace
@@ -26,10 +27,15 @@ class AnthropicAgents:
         self.agent = ChatAnthropic(model=model, max_tokens=max_tokens, temperature=temperature)
 
 
-# class HuggingFaceAgents:
-    # def __init__(self, model: str = "meta-llama/Meta-Llama-3.1-8B-Instruct", max_tokens: int = 1024, temperature: float = 0.2):
-    #     from langchain_huggingface import ChatHuggingFace
-    #     self.agent = ChatHuggingFace(model=model, max_tokens=max_tokens, temperature=temperature)
+class DallEAgents:
+    def __init__(self, model: str = "dall-e-3", size: str = "1024x1024", temperature: float = 0.2):
+        from langchain_community.utilities.dalle_image_generator import DallEAPIWrapper as DallE
+        self.agent = DallE(
+            model=model, 
+            size=size, 
+            quality="standard",
+            n=1
+        )
     
 
 class HuggingFaceAgents:
@@ -43,7 +49,31 @@ class HuggingFaceAgents:
         llm = HuggingFacePipeline(pipeline=pipe)
         self.agent = ChatHuggingFace(llm=llm)
 
+class ReplicateAgents:
+    def __init__(
+        self,
+        model: str = "stability-ai/stable-diffusion-3.5-large",
+    ):
+        from langchain_community.llms.replicate import Replicate
 
+        self.agent = Replicate(
+            model=model,
+            model_kwargs={
+                "prompt_strength": 0.85,
+                "cfg": 4.5,
+                "steps": 40,
+                "aspect_ratio": "1:1",
+                "output_format": "webp",
+                "output_quality": 90,
+            }
+        )
+
+
+    
+class OllamaAgents:
+    def __init__(self, model="deepseek-r1:1.5b", temperature=0):
+        from langchain_ollama import ChatOllama
+        self.agent = ChatOllama(model=model, temperature=temperature)
 
       
 def get_agent(agent_type: str) -> AgentProtocol:
@@ -52,6 +82,9 @@ def get_agent(agent_type: str) -> AgentProtocol:
         "google": GoogleGenerativeAIAgents,
         "anthropic": AnthropicAgents,
         "huggingface": HuggingFaceAgents,
+        "ollama": OllamaAgents,
+        "dalle": DallEAgents,
+        "replicate": ReplicateAgents,
     }
     
     agent_class = agents.get(agent_type.lower())
