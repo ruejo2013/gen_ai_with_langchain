@@ -43,3 +43,5 @@ cache/
 # Logs
 logs/
 *.log
+
+*headshot.jpg
