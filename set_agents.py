@@ -67,8 +67,18 @@ class ReplicateAgents:
                 "output_quality": 90,
             }
         )
-
-
+        
+        
+class GoogleVertextAIAgents:
+    # this agent uses the Application Default Credentials (ADC) set in your environment to Authenticate
+    def __init__(self, model: str = "gemini-2.0-flash", max_tokens: int = 1024, temperature: float = 0.2):
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        self.agent= ChatGoogleGenerativeAI(
+            model=model,
+            project="gen-lang-client-0621997816",
+            temperature=0,
+        )
+    
     
 class OllamaAgents:
     def __init__(self, model="deepseek-r1:1.5b", temperature=0):
@@ -85,6 +95,7 @@ def get_agent(agent_type: str) -> AgentProtocol:
         "ollama": OllamaAgents,
         "dalle": DallEAgents,
         "replicate": ReplicateAgents,
+        "googleadc": GoogleVertextAIAgents,
     }
     
     agent_class = agents.get(agent_type.lower())
